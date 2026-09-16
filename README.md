@@ -1,46 +1,72 @@
-# Astro Starter Kit: Basics
+# Portfolio
 
-```sh
-npm create astro@latest -- --template basics
-```
+Personal portfolio site of **Ángel Morales Romero** — ML/AI Engineer.
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+**Live at [moralesangel.github.io/portfolio](https://moralesangel.github.io/portfolio)**
 
-## 🚀 Project Structure
+Built with [Astro](https://astro.build) and [Tailwind CSS](https://tailwindcss.com). Static, dependency-light, and deployed automatically from `main`.
 
-Inside of your Astro project, you'll see the following folders and files:
+## Highlights
+
+- **Projects pulled from GitHub.** The project grid is generated at build time from the GitHub REST API, so new repositories appear on the site without editing any code. A curated fallback list keeps the build reproducible when the API is unreachable or rate-limited.
+- **Zero client-side framework.** Ships as a single HTML page plus a small CSS bundle. The only JavaScript is a scroll-reveal observer that degrades to fully visible content if it fails.
+- **Accessible and responsive.** Skip link, semantic landmarks, honours `prefers-reduced-motion`, and verified free of horizontal overflow from 390px to 1440px.
+
+## Tech stack
+
+| | |
+| :--- | :--- |
+| Framework | Astro 7 (static output) |
+| Styling | Tailwind CSS 4 |
+| Language | TypeScript |
+| Hosting | GitHub Pages via GitHub Actions |
+
+## Project structure
 
 ```text
-/
+├── .github/workflows/
+│   └── deploy.yml          # Build and publish to GitHub Pages
 ├── public/
 │   └── favicon.svg
-├── src
-│   ├── assets
-│   │   └── astro.svg
-│   ├── components
-│   │   └── Welcome.astro
-│   ├── layouts
-│   │   └── Layout.astro
-│   └── pages
-│       └── index.astro
-└── package.json
+├── src/
+│   ├── components/         # Nav, Hero, Section, ProjectCard
+│   ├── data/
+│   │   ├── profile.ts      # Bio, education, experience, stack
+│   │   └── projects.ts     # GitHub API fetch + curated fallback
+│   ├── layouts/
+│   │   └── Layout.astro    # Document shell, meta tags, scroll reveal
+│   ├── pages/
+│   │   └── index.astro     # Single-page composition
+│   └── styles/
+│       └── global.css      # Theme tokens and reveal animation
+└── astro.config.mjs
 ```
 
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
+Content lives in [`src/data/`](src/data/) and is kept separate from presentation, so updating the site is usually a matter of editing one object.
 
-## 🧞 Commands
+## Local development
 
-All commands are run from the root of the project, from a terminal:
+Requires Node.js 22.12 or later.
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+```sh
+npm install
+npm run dev      # http://localhost:4321
+```
 
-## 👀 Want to learn more?
+| Command | Action |
+| :--- | :--- |
+| `npm run dev` | Start the dev server |
+| `npm run build` | Build the production site to `./dist/` |
+| `npm run preview` | Preview the production build locally |
+| `npx astro check` | Type-check `.astro` and TypeScript files |
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+## Deployment
+
+Pushing to `main` triggers [the deploy workflow](.github/workflows/deploy.yml), which builds the site and publishes it to GitHub Pages. The workflow also runs weekly so newly created repositories show up without a manual push, and can be triggered on demand from the Actions tab.
+
+The site is served from a subpath, set via `base` in [`astro.config.mjs`](astro.config.mjs). If you fork this repository under a different name, update `base` to match or the stylesheet will not resolve.
+
+## Contact
+
+- **LinkedIn** — [angelmoralesromero](https://linkedin.com/in/angelmoralesromero)
+- **GitHub** — [@moralesangel](https://github.com/moralesangel)
