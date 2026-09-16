@@ -1,11 +1,235 @@
 ---
-import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+import Hero from '../components/Hero.astro';
+import Section from '../components/Section.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import { getProjects } from '../data/projects';
+import {
+  profile,
+  education,
+  experience,
+  research,
+  publication,
+  stack,
+  languages,
+} from '../data/profile';
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+const projects = await getProjects();
+const year = new Date().getFullYear();
 ---
 
 <Layout>
-	<Welcome />
+  <Nav />
+
+  <main id="main">
+    <Hero />
+
+    <Section
+      id="about"
+      eyebrow="About"
+      title="Background"
+      lead="Computer engineer turned ML practitioner, splitting time between production systems and applied research."
+    >
+      <div class="grid gap-6 md:grid-cols-2">
+        {
+          education.map((item) => (
+            <article class="reveal rounded-xl border border-line bg-raised/50 p-6">
+              <h3 class="font-semibold text-neutral-100">{item.degree}</h3>
+              <p class="mt-1 text-sm text-accent">{item.school}</p>
+              {item.grade && <p class="mt-1 text-sm text-neutral-500">{item.grade}</p>}
+              <p class="mt-4 text-sm leading-relaxed text-neutral-400">{item.detail}</p>
+            </article>
+          ))
+        }
+      </div>
+
+      <div class="reveal mt-6 grid gap-6 sm:grid-cols-2">
+        <div class="rounded-xl border border-line bg-raised/50 p-6">
+          <h3 class="font-mono text-xs uppercase tracking-[0.15em] text-neutral-500">Languages</h3>
+          <ul class="mt-4 space-y-2">
+            {
+              languages.map((lang) => (
+                <li class="flex items-baseline justify-between gap-4 text-sm">
+                  <span class="text-neutral-200">{lang.name}</span>
+                  <span class="text-neutral-500">{lang.level}</span>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+
+        <div class="rounded-xl border border-line bg-raised/50 p-6">
+          <h3 class="font-mono text-xs uppercase tracking-[0.15em] text-neutral-500">
+            Location & availability
+          </h3>
+          <p class="mt-4 text-sm leading-relaxed text-neutral-300">
+            {profile.location} <span class="text-neutral-500">({profile.origin})</span>
+          </p>
+          <p class="mt-2 text-sm leading-relaxed text-neutral-400">{profile.availability}</p>
+        </div>
+      </div>
+    </Section>
+
+    <Section id="experience" eyebrow="Experience" title="Where I have worked">
+      <div class="space-y-6">
+        {
+          experience.map((job) => (
+            <article class="reveal rounded-xl border border-line bg-raised/50 p-6 md:p-8">
+              <div class="flex flex-wrap items-baseline justify-between gap-2">
+                <h3 class="text-lg font-semibold text-neutral-100">
+                  {job.role} <span class="text-accent">@ {job.company}</span>
+                </h3>
+                <p class="font-mono text-xs text-neutral-500">{job.period}</p>
+              </div>
+              <p class="mt-1 text-sm text-neutral-500">{job.location}</p>
+              <p class="mt-4 leading-relaxed text-neutral-300">{job.summary}</p>
+
+              <ul class="mt-5 space-y-2.5">
+                {job.highlights.map((highlight) => (
+                  <li class="flex gap-3 text-sm leading-relaxed text-neutral-400">
+                    <span class="mt-2 inline-block size-1.5 shrink-0 rounded-full bg-accent/70" />
+                    <span>{highlight}</span>
+                  </li>
+                ))}
+              </ul>
+            </article>
+          ))
+        }
+      </div>
+    </Section>
+
+    <Section
+      id="projects"
+      eyebrow="Projects"
+      title="Selected work"
+      lead="Pulled from GitHub — deep learning, computer vision, generative models and a little creative coding."
+    >
+      <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        {
+          projects.map((project) => (
+            <div class="reveal h-full">
+              <ProjectCard project={project} />
+            </div>
+          ))
+        }
+      </div>
+
+      <div class="reveal mt-8 text-center">
+        <a
+          href={profile.links.github}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-block rounded-lg border border-line px-5 py-2.5 text-sm font-medium text-neutral-300 transition-colors hover:border-accent hover:text-accent"
+        >
+          See all repositories on GitHub
+        </a>
+      </div>
+    </Section>
+
+    <Section
+      id="research"
+      eyebrow="Research"
+      title="Current focus"
+      lead="An independent research portfolio built alongside production work."
+    >
+      <div class="grid gap-5 sm:grid-cols-2">
+        {
+          research.map((item) => (
+            <article class="reveal rounded-xl border border-line bg-raised/50 p-6">
+              <h3 class="font-semibold leading-snug text-neutral-100">{item.title}</h3>
+              <p class="mt-3 text-sm leading-relaxed text-neutral-400">{item.detail}</p>
+            </article>
+          ))
+        }
+      </div>
+
+      <article
+        class="reveal mt-6 rounded-xl border border-accent/30 bg-accent/5 p-6 md:p-8"
+      >
+        <p class="font-mono text-xs uppercase tracking-[0.15em] text-accent">{publication.venue}</p>
+        <h3 class="mt-3 text-lg font-semibold leading-snug text-neutral-100">
+          {publication.title}
+        </h3>
+        <a
+          href={publication.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="mt-4 inline-flex items-center gap-2 text-sm font-medium text-accent hover:underline"
+        >
+          Read on ResearchGate
+          <svg
+            class="size-4"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M7 17 17 7M7 7h10v10" />
+          </svg>
+        </a>
+      </article>
+    </Section>
+
+    <Section id="stack" eyebrow="Stack" title="Tools I work with">
+      <div class="grid gap-5 sm:grid-cols-2">
+        {
+          stack.map((group) => (
+            <div class="reveal rounded-xl border border-line bg-raised/50 p-6">
+              <h3 class="font-mono text-xs uppercase tracking-[0.15em] text-neutral-500">
+                {group.group}
+              </h3>
+              <ul class="mt-4 flex flex-wrap gap-2">
+                {group.items.map((item) => (
+                  <li class="rounded-md border border-line/70 bg-ink/60 px-2.5 py-1 text-sm text-neutral-300">
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))
+        }
+      </div>
+    </Section>
+
+    <Section
+      id="contact"
+      eyebrow="Contact"
+      title="Let us talk"
+      lead="Open to PhD positions in AI/ML across Europe, ML and research engineer roles, and collaboration on open source ML, robotics and applied research."
+    >
+      <div class="reveal flex flex-wrap gap-4">
+        <a
+          href={profile.links.linkedin}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="flex items-center gap-3 rounded-xl border border-line bg-raised/50 px-6 py-4 transition-colors hover:border-accent/60"
+        >
+          <span class="font-medium text-neutral-100">LinkedIn</span>
+          <span class="font-mono text-sm text-neutral-500">/angelmoralesromero</span>
+        </a>
+        <a
+          href={profile.links.github}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="flex items-center gap-3 rounded-xl border border-line bg-raised/50 px-6 py-4 transition-colors hover:border-accent/60"
+        >
+          <span class="font-medium text-neutral-100">GitHub</span>
+          <span class="font-mono text-sm text-neutral-500">@moralesangel</span>
+        </a>
+      </div>
+    </Section>
+  </main>
+
+  <footer class="border-t border-line/60">
+    <div
+      class="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-2 px-6 py-8 text-sm text-neutral-600"
+    >
+      <p>© {year} {profile.name}</p>
+      <p class="font-mono text-xs">Built with Astro & Tailwind</p>
+    </div>
+  </footer>
 </Layout>

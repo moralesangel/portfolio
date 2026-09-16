@@ -1,0 +1,54 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ink: #05070a;
+  --color-surface: #0b0f16;
+  --color-raised: #121826;
+  --color-line: #1e2637;
+  --color-accent: #5eead4;
+  --color-accent-soft: #2dd4bf;
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: ui-monospace, "SF Mono", "Cascadia Code", "JetBrains Mono", monospace;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
+}
+
+body {
+  background-image:
+    radial-gradient(60rem 40rem at 15% -10%, rgba(45, 212, 191, 0.10), transparent 70%),
+    radial-gradient(50rem 35rem at 90% 5%, rgba(56, 189, 248, 0.08), transparent 70%);
+  background-repeat: no-repeat;
+}
+
+/* Section reveal: elements fade in as they scroll into view.
+   Content is visible by default and only hidden once the script has set
+   `reveal-ready`, so a JS failure can never leave the page blank. */
+.reveal-ready .reveal {
+  opacity: 0;
+  transform: translateY(1.25rem);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.reveal-ready .reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .reveal-ready .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+::selection {
+  background: rgba(94, 234, 212, 0.25);
+}
