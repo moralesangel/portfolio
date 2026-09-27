@@ -30,6 +30,8 @@ const previews: Record<string, string> = {
   'fire-detection': 'A drone photo of a snowy forest, the predicted fire mask, and the two overlaid',
   'lettersnumbers-classifier': 'A webcam frame of a chess scoresheet with the predicted characters marked',
   'coins-detection': 'Euro coins on a flat surface, each detected and labelled by value',
+  'emergency-vehicle-detection':
+    'The live demo showing a siren detected at p = 0.9996, above the chroma bands it was classified from',
   'rag-system': 'A natural-language query returning ranked clothing items with their rerank scores',
   'mlops-cicd-pipeline': 'A grid of MNIST digits with the model prediction above each one',
 };
