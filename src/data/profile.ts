@@ -52,7 +52,7 @@ export const research = [
     title:
       'GNN-based protein–ligand binding pocket prediction',
     detail:
-      'Residue graphs with SASA features and focal loss, trained on 591 PDB structures — validation PR-AUC 0.151 against a 0.066 base rate. Published with a 3D demo.',
+      'Residue graphs with SASA and pocket-geometry features, focal loss, trained on 591 PDB structures — validation PR-AUC 0.611, ROC-AUC 0.90. Published with a 3D Mol* demo.',
     icon: 'dna',
   },
   {

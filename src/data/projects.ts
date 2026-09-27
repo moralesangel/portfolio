@@ -31,7 +31,7 @@ const previews: Record<string, string> = {
   'lettersnumbers-classifier': 'A webcam frame of a chess scoresheet with the predicted characters marked',
   'coins-detection': 'Euro coins on a flat surface, each detected and labelled by value',
   'protein-structure':
-    'A protein rendered in 3D with residues coloured by predicted binding probability, the pocket glowing yellow',
+    'A protein rendered in 3D with Mol*, residues coloured by predicted binding probability and the pocket picked out in yellow',
   'emergency-vehicle-detection':
     'The live demo showing a siren detected at p = 0.9996, above the chroma bands it was classified from',
   radai: 'The news digest listing AI stories by significance, each with a button to draft a LinkedIn post',
@@ -51,7 +51,7 @@ const overrides: Record<
 > = {
   'protein-structure': {
     title: 'Binding Site GNN',
-    metric: 'PR-AUC 0.151 vs a 0.066 base rate',
+    metric: '65% of top-ranked residues really bind',
   },
   'cnn-explorer': {
     title: 'CNN Explorer',
