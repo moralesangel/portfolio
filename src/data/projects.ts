@@ -21,14 +21,12 @@ const overrides: Record<
     title: 'CNN Explorer',
     description:
       'An interactive 3D visualization of a convolutional network trained on MNIST. Draw a digit, watch every layer react, click any neuron to see the arithmetic behind it, and retrain the network in the browser.',
-    demo: 'https://moralesangel.github.io/cnn-explorer/',
     metric: '98.86% MNIST test accuracy',
   },
   'flappy-bird-rl': {
     title: 'Flappy Bird RL',
     description:
       'A Gymnasium environment and PPO agent, with a controlled ablation testing whether lookahead features caused an apparent gain. They did not: the improvement came from a longer step budget.',
-    demo: 'https://moralesangel.github.io/flappy-bird-rl/',
     metric: '171.7 pipes over 30 held-out seeds',
   },
   radai: {
@@ -130,8 +128,12 @@ function normalize(repo: GitHubRepo): Project {
     topics: (repo.topics?.length ? repo.topics : o.topics) ?? [],
     url: repo.html_url,
     updated: repo.updated_at,
-    // A homepage on the repo is a live demo; the override wins when set.
-    demo: o.demo ?? (repo.homepage ? repo.homepage : undefined),
+    // Demo links come from the repo's "Website" field, so adding a demo to a
+    // project needs no change here. An override is only an escape hatch for a
+    // homepage that is not a demo (docs, a paper, a product page).
+    // GitHub returns "" (not null) for repos with no website, so test
+    // truthiness rather than nullishness.
+    demo: o.demo || repo.homepage || undefined,
     metric: o.metric,
   };
 }
