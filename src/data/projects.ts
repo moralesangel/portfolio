@@ -30,6 +30,8 @@ const previews: Record<string, string> = {
   'fire-detection': 'A drone photo of a snowy forest, the predicted fire mask, and the two overlaid',
   'lettersnumbers-classifier': 'A webcam frame of a chess scoresheet with the predicted characters marked',
   'coins-detection': 'Euro coins on a flat surface, each detected and labelled by value',
+  'rag-system': 'A natural-language query returning ranked clothing items with their rerank scores',
+  'mlops-cicd-pipeline': 'A grid of MNIST digits with the model prediction above each one',
 };
 
 /** Repo name to image slug, where they differ. */
@@ -73,10 +75,8 @@ const overrides: Record<
     topics: ['diffusion', 'ddpm', 'ddim', 'generative-ai', 'pytorch', 'unet'],
   },
   'rag-system': {
-    title: 'RAG System',
-    description:
-      'A retrieval-augmented generation demo built with LangChain, using FAISS vector search over sentence-transformer embeddings.',
-    topics: ['rag', 'langchain', 'faiss', 'llm', 'embeddings'],
+    title: 'Fashion RAG Search',
+    topics: ['rag', 'semantic-search', 'lancedb', 'reranking', 'streamlit'],
   },
   'coins-detection': {
     title: 'Coin Detection',
@@ -96,10 +96,9 @@ const overrides: Record<
       'A small creative-coding piece rendering the falling green glyph effect in the browser with plain JavaScript and canvas.',
     topics: ['creative-coding', 'canvas', 'javascript'],
   },
-  CICD: {
-    title: 'CI/CD Playground',
-    description: 'A sandbox for continuous integration and deployment workflows around Python projects.',
-    topics: ['ci-cd', 'python', 'automation'],
+  'mlops-cicd-pipeline': {
+    title: 'MLOps CI/CD Pipeline',
+    topics: ['ci-cd', 'github-actions', 'docker', 'pytorch', 'pytest'],
   },
 };
 
