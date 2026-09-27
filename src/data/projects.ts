@@ -6,10 +6,36 @@ export interface Project {
   topics: string[];
   url: string;
   updated: string;
+  /** Live, clickable demo of the project, when there is one. */
+  demo?: string;
+  /** A single headline result worth surfacing on the card. */
+  metric?: string;
 }
 
 /** Human-readable titles and descriptions for repos where GitHub metadata is thin. */
-const overrides: Record<string, { title?: string; description?: string; topics?: string[] }> = {
+const overrides: Record<
+  string,
+  { title?: string; description?: string; topics?: string[]; demo?: string; metric?: string }
+> = {
+  'cnn-explorer': {
+    title: 'CNN Explorer',
+    description:
+      'An interactive 3D visualization of a convolutional network trained on MNIST. Draw a digit, watch every layer react, click any neuron to see the arithmetic behind it, and retrain the network in the browser.',
+    demo: 'https://moralesangel.github.io/cnn-explorer/',
+    metric: '98.86% MNIST test accuracy',
+  },
+  'flappy-bird-rl': {
+    title: 'Flappy Bird RL',
+    description:
+      'A Gymnasium environment and PPO agent, with a controlled ablation testing whether lookahead features caused an apparent gain. They did not: the improvement came from a longer step budget.',
+    metric: '171.7 pipes over 30 held-out seeds',
+  },
+  radai: {
+    title: 'RadAI',
+    description:
+      'A React and Firebase app that surfaces recent AI news on demand and drafts LinkedIn posts about it, using Claude with web search and structured outputs behind server-side access control.',
+    topics: ['react', 'typescript', 'firebase', 'claude', 'llm', 'cloud-functions'],
+  },
   'emergency-vehicle-detection': {
     title: 'Emergency Vehicle Detection',
   },
@@ -53,13 +79,19 @@ const overrides: Record<string, { title?: string; description?: string; topics?:
   },
 };
 
-/** Repos excluded from the portfolio grid: the profile README repo and forks. */
-const excluded = new Set(['moralesangel', 'MQCOM-software']);
+/**
+ * Repos excluded from the portfolio grid: the profile README repo, forks,
+ * and this site itself (it is the thing the visitor is already looking at).
+ */
+const excluded = new Set(['moralesangel', 'MQCOM-software', 'portfolio']);
 
 /** Order the most representative work first; anything unlisted follows, newest first. */
 const featuredOrder = [
+  'cnn-explorer',
+  'flappy-bird-rl',
   'text-to-image',
   'emergency-vehicle-detection',
+  'radai',
   'BPE-tokenizer',
   'rag-system',
   'fire-detection',
@@ -81,6 +113,8 @@ interface GitHubRepo {
   language: string | null;
   topics?: string[];
   html_url: string;
+  /** Repo "website" field; used as the live demo link when present. */
+  homepage?: string | null;
   updated_at: string;
   fork: boolean;
 }
@@ -95,11 +129,44 @@ function normalize(repo: GitHubRepo): Project {
     topics: (repo.topics?.length ? repo.topics : o.topics) ?? [],
     url: repo.html_url,
     updated: repo.updated_at,
+    // A homepage on the repo is a live demo; the override wins when set.
+    demo: o.demo ?? (repo.homepage ? repo.homepage : undefined),
+    metric: o.metric,
   };
 }
 
 /** Used when the GitHub API is unreachable at build time. */
 const fallback: GitHubRepo[] = [
+  {
+    name: 'cnn-explorer',
+    description:
+      'See how a convolutional neural network reads handwriting: an interactive 3D visualization of a CNN trained on MNIST, with in-browser training.',
+    language: 'JavaScript',
+    topics: ['cnn', 'deep-learning', 'tensorflowjs', 'threejs', 'visualization', 'mnist'],
+    html_url: 'https://github.com/moralesangel/cnn-explorer',
+    homepage: 'https://moralesangel.github.io/cnn-explorer/',
+    updated_at: '2026-09-27T00:00:00Z',
+    fork: false,
+  },
+  {
+    name: 'flappy-bird-rl',
+    description:
+      'Flappy Bird as a Gymnasium environment with a PPO agent (171.7 pipes, held-out mean). Includes a controlled ablation showing how observation-space design drove a ~10x performance difference.',
+    language: 'Python',
+    topics: ['reinforcement-learning', 'ppo', 'gymnasium', 'stable-baselines3', 'python'],
+    html_url: 'https://github.com/moralesangel/flappy-bird-rl',
+    updated_at: '2026-09-26T00:00:00Z',
+    fork: false,
+  },
+  {
+    name: 'radai',
+    description: "React + Firebase + Claude app that surfaces yesterday's AI news and drafts LinkedIn posts about it",
+    language: 'TypeScript',
+    topics: [],
+    html_url: 'https://github.com/moralesangel/radai',
+    updated_at: '2026-09-23T00:00:00Z',
+    fork: false,
+  },
   {
     name: 'text-to-image',
     description: null,
@@ -197,7 +264,8 @@ export async function getProjects(): Promise<Project[]> {
     };
 
     // In CI, authenticate to avoid the low unauthenticated rate limit.
-    const token = process.env.GITHUB_TOKEN;
+    // Astro exposes build-time env vars here, so no @types/node is needed.
+    const token = import.meta.env.GITHUB_TOKEN;
     if (token) headers.Authorization = `Bearer ${token}`;
 
     const res = await fetch('https://api.github.com/users/moralesangel/repos?per_page=100&sort=updated', {

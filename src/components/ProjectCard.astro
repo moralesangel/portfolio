@@ -16,21 +16,23 @@ const languageColors: Record<string, string> = {
   MATLAB: '#E16737',
   'C++': '#F34B7D',
   HTML: '#E34C26',
+  Astro: '#BC52EE',
 };
 
 const dot = project.language ? (languageColors[project.language] ?? '#8B949E') : null;
 const topics = project.topics.slice(0, 4);
 ---
 
-<a
-  href={project.url}
-  target="_blank"
-  rel="noopener noreferrer"
-  class="group flex h-full flex-col rounded-xl border border-line bg-raised/50 p-6 transition-all hover:-translate-y-1 hover:border-accent/60 hover:bg-raised"
+{/* The card is a container rather than one big link, so the demo link can sit inside it. */}
+<article
+  class="group relative flex h-full flex-col rounded-xl border border-line bg-raised/50 p-6 transition-all hover:-translate-y-1 hover:border-accent/60 hover:bg-raised"
 >
   <div class="flex items-start justify-between gap-3">
     <h3 class="font-semibold text-neutral-100 transition-colors group-hover:text-accent">
-      {project.title}
+      {/* Stretched link: makes the whole card clickable without nesting anchors. */}
+      <a href={project.url} target="_blank" rel="noopener noreferrer" class="after:absolute after:inset-0">
+        {project.title}
+      </a>
     </h3>
     <svg
       class="size-4 shrink-0 text-neutral-600 transition-all group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-accent"
@@ -45,6 +47,12 @@ const topics = project.topics.slice(0, 4);
       <path d="M7 17 17 7M7 7h10v10" />
     </svg>
   </div>
+
+  {
+    project.metric && (
+      <p class="mt-2 font-mono text-xs text-accent">{project.metric}</p>
+    )
+  }
 
   {
     project.description && (
@@ -66,12 +74,42 @@ const topics = project.topics.slice(0, 4);
     )
   }
 
-  {
-    project.language && (
-      <p class="mt-4 flex items-center gap-2 text-xs text-neutral-500">
-        <span class="inline-block size-2.5 rounded-full" style={`background:${dot}`} />
-        {project.language}
-      </p>
-    )
-  }
-</a>
+  <div class="mt-4 flex items-center justify-between gap-3">
+    {
+      project.language ? (
+        <p class="flex items-center gap-2 text-xs text-neutral-500">
+          <span class="inline-block size-2.5 rounded-full" style={`background:${dot}`} />
+          {project.language}
+        </p>
+      ) : (
+        <span />
+      )
+    }
+
+    {
+      project.demo && (
+        /* Raised above the stretched link so it stays independently clickable. */
+        <a
+          href={project.demo}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="relative z-10 inline-flex items-center gap-1.5 rounded-md bg-accent/15 px-2.5 py-1 text-xs font-medium text-accent transition-colors hover:bg-accent hover:text-ink"
+        >
+          <svg
+            class="size-3.5"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="m5 3 14 9-14 9V3z" />
+          </svg>
+          Live demo
+        </a>
+      )
+    }
+  </div>
+</article>
