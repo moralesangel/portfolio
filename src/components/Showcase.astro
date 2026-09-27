@@ -1,0 +1,66 @@
+---
+import type { Project } from '../data/projects';
+
+interface Props {
+  projects: Project[];
+}
+
+const { projects } = Astro.props;
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+// The first few projects that have a preview image; these lead the grid, so
+// they are already the ones worth showing first. The first two load eagerly
+// since they sit near the top of the page on desktop.
+const featured = projects.filter((p) => p.image).slice(0, 4);
+---
+
+{
+  featured.length > 0 && (
+    <div class="reveal mt-14">
+      <div class="flex items-baseline justify-between gap-4">
+        <p class="font-mono text-xs uppercase tracking-[0.2em] text-neutral-500">
+          A look at recent work
+        </p>
+        <a href="#projects" class="text-sm text-neutral-500 transition-colors hover:text-accent">
+          All projects →
+        </a>
+      </div>
+
+      <ul class="mt-4 grid grid-cols-2 gap-3 lg:grid-cols-4">
+        {featured.map((p, i) => (
+          <li>
+            <a
+              href={p.demo ?? p.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="group block overflow-hidden rounded-lg border border-line bg-raised/50 transition-all hover:-translate-y-1 hover:border-accent/60"
+            >
+              <div class="relative aspect-[8/5] overflow-hidden bg-ink">
+                <img
+                  src={`${base}/projects/${p.image}.webp`}
+                  srcset={`${base}/projects/${p.image}.webp 800w, ${base}/projects/${p.image}@2x.webp 1600w`}
+                  sizes="(max-width: 640px) 50vw, 25vw"
+                  alt={p.imageAlt}
+                  width="800"
+                  height="500"
+                  loading={i < 2 ? 'eager' : 'lazy'}
+                  decoding="async"
+                  class="size-full object-cover object-top opacity-90 transition-all duration-500 group-hover:scale-[1.05] group-hover:opacity-100"
+                />
+                {p.demo && (
+                  <span class="absolute right-1.5 top-1.5 rounded bg-ink/85 px-1.5 py-0.5 font-mono text-[10px] font-medium text-accent backdrop-blur-sm">
+                    LIVE
+                  </span>
+                )}
+              </div>
+              <p class="truncate px-3 py-2 text-xs font-medium text-neutral-300 transition-colors group-hover:text-accent">
+                {p.title}
+              </p>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  )
+}

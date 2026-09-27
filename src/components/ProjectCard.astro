@@ -21,12 +21,49 @@ const languageColors: Record<string, string> = {
 
 const dot = project.language ? (languageColors[project.language] ?? '#8B949E') : null;
 const topics = project.topics.slice(0, 4);
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const img = project.image ? `${base}/projects/${project.image}.webp` : null;
+const img2x = project.image ? `${base}/projects/${project.image}@2x.webp` : null;
 ---
 
 {/* The card is a container rather than one big link, so the demo link can sit inside it. */}
 <article
-  class="group relative flex h-full flex-col rounded-xl border border-line bg-raised/50 p-6 transition-all hover:-translate-y-1 hover:border-accent/60 hover:bg-raised"
+  class="group relative flex h-full flex-col overflow-hidden rounded-xl border border-line bg-raised/50 transition-all hover:-translate-y-1 hover:border-accent/60 hover:bg-raised"
 >
+  {
+    img ? (
+      <div class="relative aspect-[8/5] overflow-hidden border-b border-line bg-ink">
+        <img
+          src={img}
+          srcset={`${img} 800w, ${img2x} 1600w`}
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          alt={project.imageAlt}
+          width="800"
+          height="500"
+          loading="lazy"
+          decoding="async"
+          class="size-full object-cover object-top opacity-90 transition-all duration-500 group-hover:scale-[1.04] group-hover:opacity-100"
+        />
+      </div>
+    ) : (
+      /* No screenshot: a quiet panel so every card in a row shares a baseline. */
+      <div
+        class="relative flex aspect-[8/5] items-center justify-center overflow-hidden border-b border-line bg-ink"
+        aria-hidden="true"
+      >
+        <div
+          class="absolute inset-0 opacity-[0.07]"
+          style="background-image:radial-gradient(circle at 1px 1px,#fff 1px,transparent 0);background-size:14px 14px"
+        />
+        <span class="relative font-mono text-xs tracking-[0.2em] text-neutral-600 uppercase">
+          {project.language ?? 'Code'}
+        </span>
+      </div>
+    )
+  }
+
+  <div class="flex flex-1 flex-col p-6">
   <div class="flex items-start justify-between gap-3">
     <h3 class="font-semibold text-neutral-100 transition-colors group-hover:text-accent">
       {/* Stretched link: makes the whole card clickable without nesting anchors. */}
@@ -56,7 +93,7 @@ const topics = project.topics.slice(0, 4);
 
   {
     project.description && (
-      <p class="mt-3 line-clamp-4 flex-1 text-sm leading-relaxed text-neutral-400">
+      <p class="mt-3 line-clamp-3 text-sm leading-relaxed text-neutral-400">
         {project.description}
       </p>
     )
@@ -74,7 +111,7 @@ const topics = project.topics.slice(0, 4);
     )
   }
 
-  <div class="mt-4 flex items-center justify-between gap-3">
+  <div class="mt-auto flex items-center justify-between gap-3 pt-4">
     {
       project.language ? (
         <p class="flex items-center gap-2 text-xs text-neutral-500">
@@ -111,5 +148,6 @@ const topics = project.topics.slice(0, 4);
         </a>
       )
     }
+  </div>
   </div>
 </article>
