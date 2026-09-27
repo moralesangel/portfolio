@@ -32,6 +32,7 @@ const previews: Record<string, string> = {
   'coins-detection': 'Euro coins on a flat surface, each detected and labelled by value',
   'emergency-vehicle-detection':
     'The live demo showing a siren detected at p = 0.9996, above the chroma bands it was classified from',
+  radai: 'The news digest listing AI stories by significance, each with a button to draft a LinkedIn post',
   'rag-system': 'A natural-language query returning ranked clothing items with their rerank scores',
   'mlops-cicd-pipeline': 'A grid of MNIST digits with the model prediction above each one',
 };
