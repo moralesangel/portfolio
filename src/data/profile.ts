@@ -51,7 +51,8 @@ export const research = [
   {
     title:
       'GNN-based protein–ligand binding pocket prediction',
-    detail: 'PyTorch Geometric: graph construction, SASA feature engineering, focal loss tuning',
+    detail:
+      'Residue graphs with SASA features and focal loss, trained on 591 PDB structures — validation PR-AUC 0.151 against a 0.066 base rate. Published with a 3D demo.',
     icon: 'dna',
   },
   {

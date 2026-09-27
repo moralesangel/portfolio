@@ -30,6 +30,8 @@ const previews: Record<string, string> = {
   'fire-detection': 'A drone photo of a snowy forest, the predicted fire mask, and the two overlaid',
   'lettersnumbers-classifier': 'A webcam frame of a chess scoresheet with the predicted characters marked',
   'coins-detection': 'Euro coins on a flat surface, each detected and labelled by value',
+  'protein-structure':
+    'A protein rendered in 3D with residues coloured by predicted binding probability, the pocket glowing yellow',
   'emergency-vehicle-detection':
     'The live demo showing a siren detected at p = 0.9996, above the chroma bands it was classified from',
   radai: 'The news digest listing AI stories by significance, each with a button to draft a LinkedIn post',
@@ -47,6 +49,10 @@ const overrides: Record<
   string,
   { title?: string; description?: string; topics?: string[]; demo?: string; metric?: string }
 > = {
+  'protein-structure': {
+    title: 'Binding Site GNN',
+    metric: 'PR-AUC 0.151 vs a 0.066 base rate',
+  },
   'cnn-explorer': {
     title: 'CNN Explorer',
     description:
@@ -113,6 +119,7 @@ const excluded = new Set(['moralesangel', 'MQCOM-software', 'portfolio']);
 
 /** Order the most representative work first; anything unlisted follows, newest first. */
 const featuredOrder = [
+  'protein-structure',
   'cnn-explorer',
   'flappy-bird-rl',
   'text-to-image',
