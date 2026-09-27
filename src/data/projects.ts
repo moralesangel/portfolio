@@ -28,6 +28,7 @@ const overrides: Record<
     title: 'Flappy Bird RL',
     description:
       'A Gymnasium environment and PPO agent, with a controlled ablation testing whether lookahead features caused an apparent gain. They did not: the improvement came from a longer step budget.',
+    demo: 'https://moralesangel.github.io/flappy-bird-rl/',
     metric: '171.7 pipes over 30 held-out seeds',
   },
   radai: {
@@ -155,6 +156,7 @@ const fallback: GitHubRepo[] = [
     language: 'Python',
     topics: ['reinforcement-learning', 'ppo', 'gymnasium', 'stable-baselines3', 'python'],
     html_url: 'https://github.com/moralesangel/flappy-bird-rl',
+    homepage: 'https://moralesangel.github.io/flappy-bird-rl/',
     updated_at: '2026-09-26T00:00:00Z',
     fork: false,
   },
