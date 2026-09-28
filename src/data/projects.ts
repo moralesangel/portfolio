@@ -55,6 +55,13 @@ const overrides: Record<
     title: 'Binding Site GNN',
     metric: '65% of top-ranked residues really bind',
   },
+  claimscope: {
+    title: 'ClaimScope',
+    description:
+      'An agent that reads an arXiv paper, extracts its claims, designs a shrunken version of each experiment, runs it sandboxed and issues a verdict with a confidence interval. It refuses more often than it answers: across twelve papers, 96 of 120 claims were never testable at reduced scale, and saying so is the point.',
+    metric: '120 claims across 12 papers',
+    topics: ['llm-agent', 'langgraph', 'reproducibility', 'research-tools', 'python'],
+  },
   'brain-tumor-segmentation': {
     title: 'Brain Tumor Segmentation',
     description:
@@ -128,6 +135,7 @@ const excluded = new Set(['moralesangel', 'MQCOM-software', 'portfolio']);
 
 /** Order the most representative work first; anything unlisted follows, newest first. */
 const featuredOrder = [
+  'claimscope',
   'protein-structure',
   'brain-tumor-segmentation',
   'cnn-explorer',
@@ -202,6 +210,16 @@ const fallback: GitHubRepo[] = [
     html_url: 'https://github.com/moralesangel/cnn-explorer',
     homepage: 'https://moralesangel.github.io/cnn-explorer/',
     updated_at: '2026-09-27T00:00:00Z',
+    fork: false,
+  },
+  {
+    name: 'claimscope',
+    description:
+      'An agent that takes an arXiv paper, extracts its claims, designs a reduced-scale experiment, runs it sandboxed and issues a verdict with a confidence interval.',
+    language: 'Python',
+    topics: ['llm-agent', 'langgraph', 'reproducibility', 'research-tools', 'python'],
+    html_url: 'https://github.com/moralesangel/claimscope',
+    updated_at: '2026-09-28T00:00:00Z',
     fork: false,
   },
   {
