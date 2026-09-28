@@ -34,6 +34,8 @@ const previews: Record<string, string> = {
     'A protein rendered in 3D with Mol*, residues coloured by predicted binding probability and the pocket picked out in yellow',
   'brain-tumor-segmentation':
     'A brain MRI slice with the predicted tumor mask overlaid on the ground truth, beside the test-set Dice distribution',
+  claimscope:
+    'A table of twelve papers, each row counting how many of its claims held at reduced scale, failed, were inconclusive, or were never testable',
   'emergency-vehicle-detection':
     'The live demo showing a siren detected at p = 0.9996, above the chroma bands it was classified from',
   radai: 'The news digest listing AI stories by significance, each with a button to draft a LinkedIn post',
