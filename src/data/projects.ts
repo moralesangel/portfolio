@@ -32,6 +32,8 @@ const previews: Record<string, string> = {
   'coins-detection': 'Euro coins on a flat surface, each detected and labelled by value',
   'protein-structure':
     'A protein rendered in 3D with Mol*, residues coloured by predicted binding probability and the pocket picked out in yellow',
+  'brain-tumor-segmentation':
+    'A brain MRI slice with the predicted tumor mask overlaid on the ground truth, beside the test-set Dice distribution',
   'emergency-vehicle-detection':
     'The live demo showing a siren detected at p = 0.9996, above the chroma bands it was classified from',
   radai: 'The news digest listing AI stories by significance, each with a button to draft a LinkedIn post',
@@ -52,6 +54,13 @@ const overrides: Record<
   'protein-structure': {
     title: 'Binding Site GNN',
     metric: '65% of top-ranked residues really bind',
+  },
+  'brain-tumor-segmentation': {
+    title: 'Brain Tumor Segmentation',
+    description:
+      'A U-Net segmenting tumors in T1 brain MRI, trained on CPU. The ablation that matters is not the +0.033 Dice: it is the 10th percentile moving +0.25, because the gain came from removing catastrophic misses rather than polishing easy cases.',
+    metric: 'Dice 0.877 on a rerun, 0.884 reported (n=860)',
+    topics: ['segmentation', 'unet', 'medical-imaging', 'tensorflow', 'keras', 'mri'],
   },
   'cnn-explorer': {
     title: 'CNN Explorer',
@@ -120,6 +129,7 @@ const excluded = new Set(['moralesangel', 'MQCOM-software', 'portfolio']);
 /** Order the most representative work first; anything unlisted follows, newest first. */
 const featuredOrder = [
   'protein-structure',
+  'brain-tumor-segmentation',
   'cnn-explorer',
   'flappy-bird-rl',
   'text-to-image',
@@ -192,6 +202,17 @@ const fallback: GitHubRepo[] = [
     html_url: 'https://github.com/moralesangel/cnn-explorer',
     homepage: 'https://moralesangel.github.io/cnn-explorer/',
     updated_at: '2026-09-27T00:00:00Z',
+    fork: false,
+  },
+  {
+    name: 'brain-tumor-segmentation',
+    description:
+      'Binary tumor segmentation from T1 brain MRI on BRISC2025. Dice 0.884 / IoU 0.793 on a held-out test set, with a documented ablation and a per-subgroup failure analysis.',
+    language: 'Jupyter Notebook',
+    topics: ['segmentation', 'unet', 'medical-imaging', 'tensorflow', 'keras', 'mri'],
+    html_url: 'https://github.com/moralesangel/brain-tumor-segmentation',
+    homepage: 'https://moralesangel.github.io/brain-tumor-segmentation/',
+    updated_at: '2026-09-28T00:00:00Z',
     fork: false,
   },
   {
