@@ -34,6 +34,8 @@ const previews: Record<string, string> = {
     'A protein rendered in 3D with Mol*, residues coloured by predicted binding probability and the pocket picked out in yellow',
   'brain-tumor-segmentation':
     'A brain MRI slice with the predicted tumor mask overlaid on the ground truth, beside the test-set Dice distribution',
+  'wildfire-segmentation-service':
+    'Fire picked out in red on a frame of drone footage, beside the live latency percentiles the service is held to',
   claimscope:
     'A table of twelve papers, each row counting how many of its claims held at reduced scale, failed, were inconclusive, or were never testable',
   'emergency-vehicle-detection':
@@ -56,6 +58,13 @@ const overrides: Record<
   'protein-structure': {
     title: 'Binding Site GNN',
     metric: '65% of top-ranked residues really bind',
+  },
+  'wildfire-segmentation-service': {
+    title: 'Wildfire Segmentation Service',
+    description:
+      'A U-Net segmenting fire in drone footage, served over a WebSocket under a latency budget stated before it was measured. Under overload it drops frames rather than falling behind, because an unbounded queue turns overload into staleness instead of preventing it.',
+    metric: '66.7 ms budget · met at p95',
+    topics: ['mlops', 'fastapi', 'onnx', 'inference-server', 'prometheus', 'segmentation'],
   },
   claimscope: {
     title: 'ClaimScope',
@@ -137,6 +146,7 @@ const excluded = new Set(['moralesangel', 'MQCOM-software', 'portfolio']);
 
 /** Order the most representative work first; anything unlisted follows, newest first. */
 const featuredOrder = [
+  'wildfire-segmentation-service',
   'claimscope',
   'protein-structure',
   'brain-tumor-segmentation',
@@ -212,6 +222,16 @@ const fallback: GitHubRepo[] = [
     html_url: 'https://github.com/moralesangel/cnn-explorer',
     homepage: 'https://moralesangel.github.io/cnn-explorer/',
     updated_at: '2026-09-27T00:00:00Z',
+    fork: false,
+  },
+  {
+    name: 'wildfire-segmentation-service',
+    description:
+      'A wildfire segmentation model served over a WebSocket under a stated latency budget, with per-stage Prometheus metrics and a queue that drops frames rather than falling behind.',
+    language: 'Python',
+    topics: ['mlops', 'fastapi', 'onnx', 'inference-server', 'prometheus', 'segmentation'],
+    html_url: 'https://github.com/moralesangel/wildfire-segmentation-service',
+    updated_at: '2026-09-29T00:00:00Z',
     fork: false,
   },
   {
